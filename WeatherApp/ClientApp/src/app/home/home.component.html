@@ -1,0 +1,91 @@
+<div class="header-container"><mat-toolbar color="primary">
+  {{title}}
+</mat-toolbar></div>
+<div class="query-container">
+  <div *ngIf="error.isError" style="color: red">
+    {{ error.errorMessage }}
+  </div>
+
+  <form [formGroup]="temperatureForm" (ngSubmit)="onFormSubmit()">
+    <mat-grid-list cols="6" rowHeight="2:1">
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select formControlName="city" placeholder="Cities*">
+            <mat-option *ngFor="let city of cities" [value]="city.id">{{city.cityName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" formControlName="startDate" placeholder="Start Date*">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 startView="year" [startAt]="fromDate"></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker2" formControlName="endDate" placeholder="End Date*">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 startView="year" [startAt]="toDate"></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select formControlName="name" placeholder="Names*" (selectionChange)="nameChange($event)">
+            <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select formControlName="unit" placeholder="units">
+            <mat-option *ngFor="let unit of units" [value]="unit.Key">{{unit.Value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button color="primary">Check Temperature</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="2" rowHeight="4:1">
+      <mat-grid-tile>
+        <mat-card class="mat-elevation-z5">
+          <mat-card-header>
+            <mat-card-title>Hottest City</mat-card-title>
+            <mat-card-subtitle>Temperature exceeding 30 degrees Celsius</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="flex-row">
+              <div class="temp">
+                <span class="City">{{humidityCity}}</span>
+                <span class="CardValue">{{humidityDays}} <label>days</label></span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="mat-elevation-z5">
+          <mat-card-header>
+            <mat-card-title>Moistest City</mat-card-title>
+            <mat-card-subtitle>In January 2023</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="flex-row">
+              <div class="temp">
+                <span class="City">{{moistureCity}}</span>
+                <span class="CardValue">{{averageMoisture}} <label>Average</label></span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+<div>
+  <canvas id="canvas">{{ chart }}</canvas>
+</div>
